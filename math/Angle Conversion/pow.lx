@@ -1,0 +1,24 @@
+// Degrees to Radians
+
+sndo2 deg_to_rad(rakm deg) {
+    kasr r = 3.14159265
+    rakm d = 180
+    rg3 deg * r / d
+}
+
+// Radians to Degrees
+sndo2 rad_to_deg(rakm rad) {
+    kasr r = 3.14159265
+    rakm d = 180
+    rg3 rad * d / r
+}
+
+// Example usage  
+rakm degrees = 90  
+kasr radians = 1
+  
+kasr result1 = deg_to_rad(degrees)  
+kasr result2 = rad_to_deg(radians)  
+  
+etb3("90 degrees = {result1} radians")  
+etb3("1 radians = {result2} degrees")

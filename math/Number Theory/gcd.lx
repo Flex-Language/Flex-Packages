@@ -1,0 +1,155 @@
+#fix sieve function #
+
+// Absolute value (abs)
+sndo2 ab(rakm x) {
+    lw x < 0 {
+        rg3 (-1)*x
+    }
+    rg3 x
+}
+
+// Corrected modulus function  
+sndo2 mo(rakm a, rakm b) {  
+    lw b == 0 {  
+        rg3 0  // Handle division by zero  
+    }  
+    rakm quotient = a / b  
+    rg3 a - (b * quotient)  
+}  
+  
+// Corrected GCD using proper Euclidean algorithm  
+sndo2 gcd(rakm a, rakm b) {  
+    a = ab(a)  
+    b = ab(b)  
+    talama b != 0 {  
+        remainder = mo(a, b)  
+        a = b  
+        b = remainder  
+    }  
+    rg3 a  
+}  
+  
+// LCM should work correctly with fixed GCD  
+sndo2 lcm(rakm a, rakm b) {  
+    lw gcd(a, b) == 0 {  
+        rg3 0  // Handle edge case  
+    }  
+    rg3 ab(a * b) / gcd(a, b)  
+}
+
+// Prime Check
+sndo2 prime_check(rakm x) {
+    lw x <= 1 {
+        rg3 ghalt
+    }
+    for(rakm i = 2; i * i <= x; i++) {
+        lw mo(x, i) == 0 {
+            rg3 ghalt
+        }
+    }
+    rg3 sa7
+}
+
+
+// Check if number is a perfect square
+sndo2 is_perfect_square(rakm x) {
+    lw x < 0 {
+        rg3 ghalt
+    }
+    rakm root = floor(sqrt(x))
+    lw root * root == x {
+        rg3 sa7
+    }
+    gher {
+        rg3 ghalt
+    }
+}
+
+// Get prime factors as a list
+sndo2 prime_factors(rakm n) {
+    dorg factors = []
+    rakm num = n
+    rakm divisor = 2
+    talama num > 1 {
+        lw mod(num, divisor) == 0 {
+            factors.push(divisor)
+            num = num / divisor
+        }
+        gher {
+            divisor = divisor + 1
+        }
+    }
+    rg3 factors
+}
+
+sndo2 sieve(rakm n) {
+    dorg primes = []
+    dorg is_prime = []
+
+    for(rakm i = 0; i <= n; i++) {
+        is_prime.push(sa7)
+    }
+
+    is_prime[0] = ghalt
+    is_prime[1] = ghalt
+    rakm j  
+    for(rakm p = 2; p * p <= n; p++) {
+        lw is_prime[p] == sa7 {          
+            j = p * p        
+            talama j <= n {
+                rakm j  
+                is_prime[j] = ghalt
+                j = j + p
+            }
+        }
+    }
+
+    for(rakm i = 2; i <= n; i++) {
+        lw is_prime[i] == sa7 {
+            primes.push(i)
+        }
+    }
+
+    rg3 primes
+}
+
+
+
+
+// Even check
+sndo2 is_even(rakm x) {
+    lw mo(x, 2) == 0 {
+        rg3 sa7
+    }
+    gher {
+        rg3 ghalt
+    }
+}
+// Odd check
+sndo2 is_odd(rakm x) {
+    lw mo(x, 2) != 0{
+        rg3 sa7
+    }
+    gher {
+        rg3 ghalt
+    }
+}
+
+
+// Example usage with output references  
+rakm num1 = 48  
+rakm num2 = 18  
+  
+etb3("GCD of {num1} and {num2}: {gcd(num1, num2)}")     // Output: GCD of 48 and 18: 6  
+etb3("LCM of {num1} and {num2}: {lcm(num1, num2)}")     // Output: LCM of 48 and 18: 144  
+  
+rakm test_prime = 17  
+etb3("Is {test_prime} prime? {prime_check(test_prime)}") // Output: Is 17 prime? true  
+  
+rakm test_num = 24  
+etb3("Is {test_num} even? {is_even(test_num)}")         // Output: Is 24 even? true  
+etb3("Is {test_num} odd? {is_odd(test_num)}")           // Output: Is 24 odd? false  
+  
+// Generate primes up to 20  
+prime_list = sieve(20)  
+etb3("Primes up to 20: {prime_list}")                   // Output: Primes up to 20: [2, 3, 5, 7, 11, 13, 17, 19]

@@ -1,0 +1,91 @@
+// Absolute value (abs)
+sndo2 abb(kasr x) {
+    lw x < 0 {
+        rg3 (-1)*x
+    }
+    rg3 x
+}
+
+
+sndo2 po(kasr a, kasr b) {
+    kasr result = 1
+
+    lw b >= 0 {
+        for(rakm i = 0; i < b; i++) {
+            result = result * a
+        }
+    }
+    gher {
+        rakm neg_one = -1
+        kasr x = b * neg_one  # Now valid
+        for(rakm i = 0; i < x; i++) {
+            result = result * a
+        }
+        result = 1 / result
+    }
+
+    rg3 result
+}
+
+
+// Natural Logarithm ln(x) - Approximation
+sndo2 log(kasr x) {
+    lw x <= 0 {
+        etb3("Error: log undefined for <= 0")
+        rg3 0
+    }
+    kasr y = (x - 1) / (x + 1)
+    kasr y2 = y * y
+    kasr result = 0
+    kasr term = y
+    kasr n = 1
+    talama abb(term) > 0.00001 {
+        result = result + term / n
+        term = term * y2
+        n = n + 2
+    }
+    rg3 2 * result
+}
+
+
+// Exponential e^x - Taylor Series
+sndo2 exp(kasr x) {
+    kasr sum = 1
+    kasr term = 1
+    kasr n = 1
+    talama abb(term) > 0.00001 {
+        term = term * x / n
+        sum = sum + term
+        n = n + 1
+    }
+    rg3 sum
+}
+
+
+// Exponential base 2
+sndo2 exp2(kasr x) {
+    rg3 po(2, x)
+}
+
+// Exponential minus 1
+sndo2 expm1(kasr x) {
+    rg3 exp(x) - 1
+}
+
+// Example usage with output references  
+rakm base = 2  
+rakm exponent = 3  
+rakm value = 8  
+  
+etb3("Power: {base}^{exponent} = {po(base, exponent)}")        // Output: Power: 2^3 = 8  
+etb3("Natural log of {value}: {log(value)}")                  // Output: Natural log of 8: 2.0794   
+etb3("e^2 = {exp(2)}")                                        // Output: e^2 = 7.389  
+etb3("2^{exponent} = {exp2(exponent)}")                       // Output: 2^3 = 8  
+etb3("e^1 - 1 = {expm1(1)}")                                 // Output: e^1 - 1 = 1.718  
+  
+// Test negative exponents  
+etb3("2^(-2) = {po(2, -2)}")                                 // Output: 2^(-2) = 0.25  
+  
+// Test error handling  
+etb3("Log of negative number:")  
+log(-5)          

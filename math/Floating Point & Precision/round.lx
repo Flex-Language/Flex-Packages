@@ -1,0 +1,94 @@
+
+// Absolute value (abs)
+sndo2 ab(rakm x) {
+    lw x < 0 {
+        rg3 (-1)*x
+    }
+    rg3 x
+}
+
+
+// Square Root (Approximation - Newton's Method)
+sndo2 sqr(rakm x) {
+    rakm guess = x / 2
+    talama ab(guess * guess - x) > 0.00001 {
+        guess = (guess + x / guess) / 2
+    }
+    rg3 guess
+}
+
+sndo2 floor(kasr x) {  
+    rakm y = 0  
+    lw x >= 0 {  
+        rakm z = y + 1  
+        talama z <= x {  
+            y = y + 1  
+            z = y + 1  
+        }  
+    } gher {  
+        rakm a = y - 1  
+        talama a >= x {  // Changed from 'a > x' to 'a >= x'  
+            y = y - 1  
+            a = y - 1  
+        }  
+        // Additional check: if x is not an integer, we need to go one step further  
+        lw y != x {  
+            y = y - 1  
+        }  
+    }  
+    rg3 y  
+}  
+  
+sndo2 ceil(kasr x) {  
+    rakm y = 0  
+    lw x >= 0 {  
+        rakm z = y + 1  
+        talama z <= x {  
+            y = y + 1  
+            z = y + 1  
+        }  
+        lw y < x {  
+            y = y + 1  
+        }  
+    } gher {  
+        rakm a = y - 1  
+        talama a > x {  
+            y = y - 1  
+            a = y - 1  
+        }  
+        // For negative numbers, if y equals x exactly, that's our ceiling  
+        // Otherwise, y is already the correct ceiling value  
+    }  
+    rg3 y  
+}
+
+// Round (nearest integer)
+sndo2 round(kasr x) {
+    rakm f = floor(x)
+    lw x - f >= 0.5 {
+        rg3 f + 1
+    }
+    rg3 f
+}
+
+// Distance between two points (x1, y1) and (x2, y2)
+sndo2 distance(kasr x1, kasr y1, kasr x2, kasr y2) {
+    kasr dx = x2 - x1
+    kasr dy = y2 - y1
+    rg3 sqr(dx * dx + dy * dy)
+}
+
+kasr test1 = 3.7  
+kasr test2 = -6.3
+kasr test3 = 4.5  
+  
+etb3("Floor of {test1}: {floor(test1)}")     // Output: 3  
+etb3("Floor of {test2}: {floor(test2)}")     // Output: -3  
+etb3("Ceil of {test1}: {ceil(test1)}")       // Output: 4  
+etb3("Ceil of {test2}: {ceil(test2)}")       // Output: -2  
+etb3("Round of {test3}: {round(test3)}")     // Output: 5  
+etb3("Round of {test1}: {round(test1)}")     // Output: 4  
+  
+kasr x1 = 0, y1 = 0  
+kasr x2 = 3, y2 = 4  
+etb3("Distance from ({x1},{y1}) to ({x2},{y2}): {distance(x1, y1, x2, y2)}")  // Output: 5.0

@@ -1,0 +1,97 @@
+// Define all mathematical functions with corrections  
+sndo2 ba(rakm x) {  
+    lw x < 0 {  
+        rg3 (-1)*x  
+    }  
+    rg3 x  
+}  
+  
+sndo2 do_mod(rakm b, rakm c) {  
+    lw c == 0 { etb3("error: division by zero is not allowed") }  
+  
+    aba = ba(b)   
+    abb = ba(c)  
+  
+    lw aba < abb { rg3 b }  
+  
+    tlma aba >= abb {  
+        aba = aba - abb  
+    }  
+  
+    lw b < 0 {  
+        rg3 (-1)*aba  
+    }  
+    gher { rg3 aba }  
+}  
+  
+sndo2 power(rakm a, rakm b) {  
+    rakm result = 1  
+    lw b >= 0 {  
+        for(rakm i = 0; i < b; i++) {  
+            result = result * a  
+        }  
+    }  
+    gher {  
+        for(rakm i = 0; i < b * -1; i++) {  
+            result = result * a  
+        }  
+        result = 1 / result  
+    }  
+    rg3 result  
+}  
+  
+sndo2 pow_int(rakm a, rakm n) {  
+    rakm result = 1  
+    rakm fin = do_mod(n, 2)  
+    talama n > 0 {  
+        lw fin == 1 {  
+            result = result * a  
+        }  
+        a = a * a  
+        n = n / 2  
+        fin = do_mod(n, 2)  
+    }  
+    rg3 result  
+}  
+  
+sndo2 sqrt(rakm x) {  
+    rakm guess = x / 2  
+    talama ba(guess * guess - x) > 0.00001 {  
+        guess = (guess + x / guess) / 2  
+    }  
+    rg3 guess  
+}  
+  
+sndo2 cbrt(rakm x) {  
+    rakm guess = x / 3  
+    talama ba(guess * guess * guess - x) > 0.00001 {  
+        guess = (2 * guess + x / (guess * guess)) / 3  
+    }  
+    rg3 guess  
+}  
+  
+sndo2 cube(rakm x) {  
+    rg3 x * x * x  
+}  
+  
+sndo2 fourth_power(rakm x) {  
+    rg3 x * x * x * x  
+}  
+  
+sndo2 hypotenuse(rakm a, rakm b) {  
+    rg3 sqrt(a * a + b * b)  
+}  
+  
+// Example usage with output references  
+rakm base = 2  
+rakm exponent = 3 
+rakm number = 27  
+  
+etb3("Power: {base}^{exponent} = {power(base, exponent)}")           // Output: Power: 2^3 = 8  
+etb3("Fast power: {base}^{exponent} = {pow_int(base, exponent)}")    // Output: Fast power: 2^3 = 8  
+etb3("Square root of 16: {sqrt(16)}")                               // Output: Square root of 16: 4  
+etb3("Cube root of {number}: {cbrt(number)}")                       // Output: Cube root of 27: 3  
+etb3("Cube of 4: {cube(4)}")                                        // Output: Cube of 4: 64  
+etb3("Fourth power of 2: {fourth_power(2)}")                        // Output: Fourth power of 2: 16  
+etb3("Hypotenuse of 3,4: {hypotenuse(3, 4)}")                      // Output: Hypotenuse of 3,4: 5  
+etb3("Modulus 10 % 3: {do_mod(10, 3)}")                            // Output: Modulus 10 % 3: 1

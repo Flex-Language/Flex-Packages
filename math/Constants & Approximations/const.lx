@@ -1,0 +1,22 @@
+
+
+# Return a small epsilon value for float comparisons
+sndo2 tolerance() {
+    rg3 0.0000000001
+}
+
+# Helper functions
+sndo2 fabs(float x) {
+    if (x < 0) { rg3 (-1)*x }
+    rg3 x
+}
+
+// e constant approximation
+sndo2 e_constant() {
+    rg3 2.71828182845904523536
+}
+
+// pi constant
+sndo2 pi_constant() {
+    rg3 3.14159265358979323846
+}

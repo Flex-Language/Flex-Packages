@@ -1,0 +1,85 @@
+
+// Absolute value (abs)
+sndo2 a(rakm x) {
+    lw x < 0 {
+        rg3 x * (-1.0)
+    }
+    rg3 x
+}
+
+
+// Fixed Square Root function  
+sndo2 sq(rakm x) {  
+    kasr guess = x / 2  
+    kasr i = guess * guess - x  // Declare i as rakm  
+    talama i > 0.00001 {  
+        guess = (guess + x / guess) / 2  
+        i = guess * guess - x  // Recalculate i in each iteration  
+    }  
+    rg3 guess  
+}
+
+// Improved versions with float precision  
+sndo2 mean(dorg arr) {  
+    kasr sum = 0.0  
+    rakm len = length(arr)  
+    for(rakm i = 0; i < len; i++) {  
+        sum = sum + arr[i]  
+    }  
+    rg3 sum / len  
+}  
+  
+sndo2 variance(dorg arr) {  
+    kasr m = mean(arr)  
+    kasr sum = 0.0  
+    rakm len = length(arr)  
+    for(rakm i = 0; i < len; i++) {  
+        diff = arr[i] - m  
+        sum = sum + diff * diff  
+    }  
+    rg3 sum / len  
+}
+
+// Standard Deviation
+sndo2 standard_deviation(dorg arr) {
+    rg3 sq(variance(arr))
+}
+
+
+// Test the statistical functions  
+etb3("=== Testing Statistical Functions ===")  
+  
+// Create test arrays  
+dorg test_data1 = [1, 2, 3, 4, 5]  
+dorg test_data2 = [10, 20, 30, 40, 50]  
+dorg test_data3 = [2, 4, 4, 4, 5, 5, 7, 9]  
+dorg single_element = [42]  
+dorg negative_data = [-2, -1, 0, 1, 2]  
+  
+// Test mean function  
+etb3("Testing mean function:")  
+etb3("Mean of [1,2,3,4,5]: {mean(test_data1)}")           // Should be 3  
+etb3("Mean of [10,20,30,40,50]: {mean(test_data2)}")      // Should be 30  
+etb3("Mean of [2,4,4,4,5,5,7,9]: {mean(test_data3)}")    // Should be 5  
+etb3("Mean of [42]: {mean(single_element)}")              // Should be 42  
+etb3("Mean of [-2,-1,0,1,2]: {mean(negative_data)}")     // Should be 0  
+  
+// Test variance function  
+etb3("\nTesting variance function:")  
+etb3("Variance of [1,2,3,4,5]: {variance(test_data1)}")           // Should be 2  
+etb3("Variance of [10,20,30,40,50]: {variance(test_data2)}")      // Should be 200  
+etb3("Variance of [2,4,4,4,5,5,7,9]: {variance(test_data3)}")    // Should be 4  
+etb3("Variance of [42]: {variance(single_element)}")              // Should be 0  
+etb3("Variance of [-2,-1,0,1,2]: {variance(negative_data)}")     // Should be 2  
+  
+// Test standard deviation function (requires sqrt implementation)  
+etb3("\nTesting standard_deviation function:")  
+etb3("Std Dev of [1,2,3,4,5]: {standard_deviation(test_data1)}")           // Should be 1.414  
+etb3("Std Dev of [10,20,30,40,50]: {standard_deviation(test_data2)}")      // Should be 14.142  
+etb3("Std Dev of [42]: {standard_deviation(single_element)}")              // Should be 0  
+  
+// Edge case testing  
+etb3("\n=== Edge Case Testing ===")  
+dorg large_dataset = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]  
+etb3("Mean of 1-10: {mean(large_dataset)}")               // Should be 5.5  
+etb3("Variance of 1-10: {variance(large_dataset)}")       // Should be 8.25

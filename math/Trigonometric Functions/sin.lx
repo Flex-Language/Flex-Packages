@@ -1,0 +1,156 @@
+#error not finidshed
+
+sndo2 ab(kasr x) {
+    lw x < 0 {
+        rg3 x * (-1)
+    }
+    rg3 x
+}
+sndo2 floor(kasr x) {
+    kasr i = 0
+    talama i <= x {
+        i = i + 1
+    }
+    rg3 i - 1
+}
+sndo2 ex(kasr x) {
+    kasr sum = 1
+    kasr term = 1
+    kasr n = 1
+    talama ab(term) > 0.00001 {
+        term = term * x / n
+        sum = sum + term
+        n = n + 1
+    }
+    rg3 sum
+}
+sndo2 sin(kasr x) {
+    kasr result = 0
+    kasr term = x
+    kasr n = 1
+    kasr ne = -1
+    talama ab(term) > 0.00001 {
+        result = result + term
+        n = n + 2
+        kasr denominator = n * (n - 1)
+        kasr x_squared = x * x
+        term = ne * term * x_squared / denominator
+    }
+    rg3 result
+}
+sndo2 cos(kasr x) {
+    kasr result = 0
+    kasr term = 1
+    kasr n = 0
+    kasr ne = -1
+    talama ab(term) > 0.00001 {
+        result = result + term
+        n = n + 2
+        denominator = n * (n - 1)
+        kasr x_squared = x * x
+        term = ne * term * x_squared / denominator
+    }
+    rg3 result
+}
+sndo2 tan(kasr x) {
+    kasr c = cos(x)
+    lw ab(c) < 0.00001 {
+        etb3("Error: tan undefined")
+        rg3 0
+    }
+    rg3 sin(x) / c
+}
+sndo2 sec(kasr x) {
+    kasr c = cos(x)
+    lw ab(c) < 0.00001 {
+        etb3("Error: sec undefined")
+        rg3 0
+    }
+    rg3 1 / c
+}
+
+sndo2 csc(kasr x) {
+    kasr s = sin(x)
+    lw ab(s) < 0.00001 {
+        etb3("Error: csc undefined")
+        rg3 0
+    }
+    rg3 1 / s
+}
+
+sndo2 cot(kasr x) {
+    kasr t = tan(x)
+    lw ab(t) < 0.00001 {
+        etb3("Error: cot undefined")
+        rg3 0
+    }
+    rg3 1 / t
+}
+sndo2 sinh(kasr x) {
+    kasr pos = ex(x)
+    ne = x * (-1)
+    kasr neg = ex(ne)
+    rg3 (pos - neg) / 2
+}
+
+sndo2 cosh(kasr x) {
+    kasr pos = ex(x)
+    ne = x * (-1)
+    kasr neg = ex(ne)
+    rg3 (pos + neg) / 2
+}
+
+sndo2 tanh(kasr x) {
+    kasr pos = ex(x)
+    ne = x * (-1)
+    kasr neg = ex(ne)
+    rg3 (pos - neg) / (pos + neg)
+}
+sndo2 arcsin(kasr x) {
+    lw x < -1 {
+        etb3("Error: arcsin undefined")
+        rg3 0
+    }
+    lw x > 1 {
+        etb3("Error: arcsin undefined")
+        rg3 0
+    }
+
+    kasr result = x
+    kasr term = x
+    kasr n = 1
+
+    talama ab(term) > 0.00001 {
+        kasr num = term * x * x * (2 * n - 1) * (2 * n - 1)
+        kasr den = (2 * n) * (2 * n + 1)
+        term = num / den
+        result = result + term
+        n = n + 1
+    }
+
+    rg3 result
+}
+sndo2 arccos(kasr x) {
+    rg3 3.14159265 / 2 - arcsin(x)
+}
+sndo2 arctan(kasr x) {
+    kasr result = 0
+    kasr term = x
+    kasr n = 1
+    kasr sign = 1
+    talama ab(term) > 0.00001 {
+        result = result + sign * term / n
+        term = term * x * x
+        n = n + 2
+        sign = sign * -1
+    }
+    rg3 result
+}
+etb3("sin(1.57): {sin(1.57)}")
+etb3("cos(0): {cos(0)}")
+etb3("tan(0.785): {tan(0.785)}")
+etb3("arcsin(0.5): {arcsin(0.5)}")
+etb3("arctan(1): {arctan(1)}")
+etb3("sinh(1): {sinh(1)}")
+etb3("cosh(1): {cosh(1)}")
+etb3("tanh(1): {tanh(1)}")

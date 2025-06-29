@@ -1,0 +1,117 @@
+sndo2 do_modulus(rakm b, rakm c) {
+    lw c == 0 {
+        etb3("error: division by zero is not allowed")
+        rg3 0  // Exit early with a safe default
+    }
+
+    rakm aba = abs(b)
+    rakm abb = abs(c)
+
+    lw aba < abb {
+        rg3 b
+    }
+
+    tlma aba >= abb {
+        aba = aba - abb
+    }
+
+    lw b < 0 {
+        rg3 (-1) * aba
+    }
+    gher {
+        rg3 aba
+    }
+}
+
+
+// Absolute value (abs)
+sndo2 abs(rakm x) {
+    lw x < 0 {
+        rg3 (-1)*x
+    }
+    rg3 x
+}
+
+sndo2 bitwise_and(rakm a, rakm b) {    
+    rakm result = 0    
+    rakm bit = 1    
+
+    
+    
+    talama a > 0 or b > 0 {
+        ma = do_modulus(a, 2)
+        mb = do_modulus(b, 2)
+
+        
+        
+        lw ma == 1 and mb == 1 {
+            result = result + bit    
+        }    
+        a = a / 2    
+        b = b / 2    
+        bit = bit * 2    
+    }    
+    
+    
+    rg3 result    
+}
+
+
+
+
+sndo2 bitwise_or(rakm a, rakm b) {
+    rakm result = 0
+    rakm bit = 1
+
+    
+    
+    talama a > 0 or b > 0 {
+        ma = do_modulus(a, 2)
+        mb = do_modulus(b, 2)
+
+        
+
+        lw ma == 1 or mb == 1 {
+            result = result + bit
+        }
+
+        a = a / 2
+        b = b / 2
+        bit = bit * 2
+    }
+
+    
+    rg3 result
+}
+
+
+sndo2 bitwise_xor(rakm a, rakm b) {
+    rakm result = 0
+    rakm bit = 1
+    talama a > 0 or b > 0 {
+        lw do_modulus(a + b, 2) == 1 {
+            result = result + bit
+        }
+        a = a / 2
+        b = b / 2
+        bit = bit * 2
+    }
+    rg3 result
+}
+
+// Bitwise NOT (Assuming 32 bit)
+sndo2 bitwise_not(rakm a) {
+    rg3 4294967295 - a
+}
+
+// Example usage  
+rakm x = 3  // Binary: 1100  
+rakm y = 8  // Binary: 1010  
+  
+etb3("Bitwise AND: {x} & {y} = {bitwise_and(x, y)}")    // Expected: 8 (1000)  
+etb3("Bitwise OR: {x} | {y} = {bitwise_or(x, y)}")      // Expected: 14 (1110)  
+etb3("Bitwise XOR: {x} ^ {y} = {bitwise_xor(x, y)}")    // Expected: 6 (0110)  
+etb3("Bitwise NOT: ~{x} = {bitwise_not(x)}")            // Expected: 4294967283
+
+
+

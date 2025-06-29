@@ -1,0 +1,107 @@
+// Addition 
+sndo2 add(rakm a, rakm b) {
+    rg3 a + b
+}
+
+// Subtraction
+sndo2 subtract(rakm a, rakm b) {
+    rg3 a - b
+}
+
+// Multiplication
+sndo2 multiply(rakm a, rakm b) {
+    rg3 a * b
+}
+
+// Division
+sndo2 divide(rakm a, rakm b) {
+    lw b == 0 {
+        etb3("Error: Division by zero")
+        rg3 0
+    }
+    rg3 a / b
+}
+
+// Manual modulus (do_modulus)
+sndo2 do_modulus(rakm b, rakm c) {
+    lw c == 0 { etb3("error: division by zero is not allowed") }
+
+    aba = abs(b) 
+    abb = abs(c)
+
+    lw aba < abb { rg3 b }
+
+    tlma aba >= abb {
+        aba = aba - abb
+    }
+
+    lw b < 0 {
+        rg3 (-1)*aba
+    }
+    gher { rg3 aba }
+}
+
+// Absolute value (abs)
+sndo2 abs(rakm x) {
+    lw x < 0 {
+        rg3 (-1)*x
+    }
+    rg3 x
+}
+
+// Modulus (remainder)
+sndo2 mod(rakm a, rakm b) {
+    rg3 a - (b * (a / b))
+}
+
+// Sign function
+sndo2 sign(rakm x) {
+    lw x > 0 {
+        rg3 1
+    }
+    lw x < 0 {
+        rg3 -1
+    }
+    rg3 0
+}
+
+// Min (minimum)
+sndo2 min(rakm a, rakm b) {
+    lw a < b {
+        rg3 a
+    }
+    rg3 b
+}
+
+// Max (maximum)
+sndo2 max(rakm a, rakm b) {
+    lw a > b {
+        rg3 a
+    }
+    rg3 b
+}
+
+// Clamp between min and max
+sndo2 clamp(rakm x, rakm min_val, rakm max_val) {
+    rg3 max(min_val, min(x, max_val))
+}
+
+// Copy sign function
+sndo2 copysign(float x, float y) {
+    abs_x = fabs(x)
+    if (y < 0) { rg3 (-1)*abs_x }
+    rg3 abs_x
+}
+
+// Example usage  
+rakm x = 15  
+rakm y = 4  
+  
+etb3("Addition: {x} + {y} = {add(x, y)}")  
+etb3("Subtraction: {x} - {y} = {subtract(x, y)}")  
+etb3("Multiplication: {x} * {y} = {multiply(x, y)}")  
+etb3("Division: {x} / {y} = {divide(x, y)}")  
+etb3("Modulus: {x} % {y} = {do_modulus(x, y)}")  
+etb3("Absolute value of -10: {abs(-10)}")  
+etb3("Min of {x} and {y}: {min(x, y)}")  
+etb3("Max of {x} and {y}: {max(x, y)}")
