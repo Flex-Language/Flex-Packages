@@ -57,7 +57,7 @@ etb3("Product 1 to 1: {product_from_to(1, 1)}")     // Should be 1
 etb3("Product 5 to 3: {product_from_to(5, 3)}")     // Should be 1 (no iterations)  
   
 // Test factorial function  
-etb3("\nTesting factorial:")  
+etb3("Testing factorial:")  
 etb3("Factorial of 0: {factorial(0)}")               // Should be 1  
 etb3("Factorial of 1: {factorial(1)}")               // Should be 1  
 etb3("Factorial of 5: {factorial(5)}")               // Should be 120  
@@ -65,13 +65,13 @@ etb3("Factorial of 7: {factorial(7)}")               // Should be 5040
 etb3("Factorial of -3: {factorial(-3)}")             // Should be 0 (error case)  
   
 // Test gamma function  
-etb3("\nTesting gamma (Γ(x) = (x-1)!):")  
+etb3("Testing gamma (Γ(x) = (x-1)!):")  
 etb3("Gamma of 1: {gamma(1)}")                       // Should be 0! = 1  
 etb3("Gamma of 5: {gamma(5)}")                       // Should be 4! = 24  
 etb3("Gamma of 6: {gamma(6)}")                       // Should be 5! = 120  
   
 // Test fibonacci function  
-etb3("\nTesting nth_fibonacci:")  
+etb3("Testing nth_fibonacci:")  
 etb3("Fibonacci 0: {nth_fibonacci(0)}")              // Should be 0  
 etb3("Fibonacci 1: {nth_fibonacci(1)}")              // Should be 1  
 etb3("Fibonacci 2: {nth_fibonacci(2)}")              // Should be 1  
@@ -80,7 +80,7 @@ etb3("Fibonacci 8: {nth_fibonacci(8)}")              // Should be 21
 etb3("Fibonacci 10: {nth_fibonacci(10)}")            // Should be 55  
   
 // Test sum_from_to function  
-etb3("\nTesting sum_from_to:")  
+etb3("Testing sum_from_to:")  
 etb3("Sum 1 to 5: {sum_from_to(1, 5)}")             // Should be 15 (1+2+3+4+5)  
 etb3("Sum 1 to 10: {sum_from_to(1, 10)}")           // Should be 55  
 etb3("Sum 5 to 8: {sum_from_to(5, 8)}")             // Should be 26 (5+6+7+8)  
@@ -88,7 +88,7 @@ etb3("Sum 1 to 1: {sum_from_to(1, 1)}")             // Should be 1
 etb3("Sum 10 to 5: {sum_from_to(10, 5)}")           // Should be 0 (no iterations)  
   
 // Edge case testing  
-etb3("\n=== Edge Case Testing ===")  
+etb3("=== Edge Case Testing ===")  
 etb3("Large factorial: {factorial(10)}")             // Should be 3628800  
 etb3("Large fibonacci: {nth_fibonacci(15)}")         // Should be 610  
 etb3("Large sum: {sum_from_to(1, 100)}")            // Should be 5050
