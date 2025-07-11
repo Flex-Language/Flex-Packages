@@ -1,0 +1,189 @@
+sndo2 abs(rakm x) {  
+    lw x < 0 {  
+        rg3 (-1)*x  
+    }  
+    rg3 x  
+}  
+  
+  
+sndo2 do_modulus(rakm b, rakm c) {    
+    lw c == 0 {    
+        etb3("error: division by zero is not allowed")    
+        rg3 0    
+    }    
+    
+    rakm aba = abs(b)    
+    rakm abb = abs(c)    
+    
+    lw aba < abb {    
+        rg3 b    
+    }    
+    
+    tlma aba >= abb {    
+        aba = aba - abb    
+    }    
+    
+    lw b < 0 {    
+        rg3 (-1) * aba    
+    }    
+    gher {    
+        rg3 aba    
+    }    
+}    
+
+sndo2 generate_words() {  
+    dorg words = ["FLEX", "PROGRAM", "COMPUTER", "LANGUAGE", "CODING","SYNTAX", "FUNCTION", "VARIABLE", "LOOP", "CONDITION", "ARRAY", "STRING", "INTEGER", "BOOLEAN", "PRINT"]  
+    rg3 words  
+}  
+  
+
+sndo2 select_random_word(dorg words) {  
+    rakm n = length(words)  
+      
+    etb3("Enter any number for randomization: ")  
+    rakm seed = da5l()  
+      
+    
+    x = (seed * 17 + 42) * seed  
+    y = do_modulus(x, n)  
+      
+    rg3 words[y]  
+}  
+ 
+  
+
+sndo2 display_hangman(rakm wrong_guesses) {  
+    etb3("+--------+")  
+      
+    
+      
+    lw wrong_guesses == 0 { 
+        
+        etb3("    |     |")
+        etb3("          |")  
+        etb3("          |")   
+        etb3("          |")
+        etb3("          |")
+        etb3("          |")
+        
+         
+    }  
+    aw wrong_guesses == 1 {  
+         
+        etb3("    |     |")
+        etb3("    O     |")  
+        etb3("          |")   
+        etb3("          |")
+        etb3("          |")
+        etb3("          |")
+          
+    }  
+    aw wrong_guesses == 2 {  
+          
+        etb3("    |     |")
+        etb3("    O     |")  
+        etb3(" -|---|-  |")   
+        etb3("          |")   
+        etb3("          |")
+        etb3("          |")
+        
+           
+    }  
+    aw wrong_guesses == 3 {  
+         
+        etb3("    |     |")
+        etb3("    O     |")  
+        etb3(" -|---|-  |")   
+        etb3("/ |   | \ |")  
+        etb3("          |")   
+        etb3("          |")
+       
+        
+    }  
+    aw wrong_guesses == 4 {  
+         
+        etb3("    |     |")
+        etb3("    O     |")  
+        etb3(" -|---|-  |")   
+        etb3("/ |   | \ |")
+        etb3(" -|---|-  |")
+        etb3("          |")   
+        
+         
+         
+    }  
+    gher {  // wrong_guesses == 5 (game over)  
+        etb3("    |     |")
+        etb3("    O     |")  
+        etb3(" -|---|-  |")   
+        etb3("/ |   | \ |")
+        etb3(" -|---|-  |")
+        etb3("/ |   | \ |")
+    }  
+      
+    etb3("===========") 
+
+}
+  
+  
+sndo2 play_hangman() {       
+    dorg word_list = generate_words()      
+    klma secret_word = select_random_word(word_list)      
+    rakm word_length = length(secret_word)      
+          
+    dorg guessed = []      
+    for(i=0; i<word_length; i++) {      
+        guessed.push("_")      
+    }      
+          
+    rakm wrong_guesses = 0      
+    rakm max_wrong = 6      
+    klma guess = ""  
+    so2al game_won = ghalt  // Declare once here  
+          
+    etb3("=== HANGMAN GAME ===")      
+          
+    talama wrong_guesses < max_wrong {      
+        display_hangman(wrong_guesses)      
+        etb3("Word: {guessed}")      
+              
+        etb3("Enter a letter: ")      
+        guess = da5l()    
+            
+        found = false    
+        for(i=0; i<word_length; i++) {    
+            lw secret_word[i] == guess {    
+                guessed[i] = guess    
+                found = true    
+            }    
+        }    
+            
+        lw not found {    
+            wrong_guesses++    
+            etb3("Wrong guess!")  
+            etb3("            ")    
+        }    
+            
+        // Check win condition - look for any remaining underscores  
+        game_won = sa7  // Just assign, don't redeclare  
+        for(i=0; i<word_length; i++) {  
+            lw guessed[i] == "_" {  
+                game_won = ghalt  
+                w2f  // Break out of loop early  
+            }  
+        }  
+  
+        lw game_won {  
+            etb3("Word: {guessed}")  // Show the completed word  
+            etb3("Congratulations! You won!")  
+            etb3("The word was: {secret_word}")  
+            rg3 0
+        } 
+    }    
+        
+    etb3("Game Over! The word was: {secret_word}")    
+}
+ 
+etb3("Starting Hangman Game...") 
+etb3("with CAPSLK key") 
+play_hangman()

@@ -1,0 +1,91 @@
+sndo2 print_board(board) {
+    etb3("-------------")
+    etb3("| {board[0]} | {board[1]} | {board[2]} |")
+    etb3("-------------")
+    etb3("| {board[3]} | {board[4]} | {board[5]} |")
+    etb3("-------------")
+    etb3("| {board[6]} | {board[7]} | {board[8]} |")
+    etb3("-------------")
+}
+
+sndo2 check_winner(klma player, board) {
+    dorg wins = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
+
+    for(rakm i = 0; i < 8; i++) {
+        dorg combo = []
+        combo = wins[i]
+        lw board[combo[0]] == player and board[combo[1]] == player and board[combo[2]] == player {
+            lw board[combo[0]] == board[combo[1]] or board[combo[1]] == board[combo[2]] {
+                rg3 sa7
+            }
+        }
+
+    }
+
+    rg3 ghalt
+}
+
+sndo2 is_draw(board) {
+    rakm filled = 0
+    for(rakm i = 0; i < 9; i++) {
+        lw board[i] != " " {
+            filled = filled + 1
+        }
+    }
+
+    lw filled == 9 {
+        rg3 sa7
+    }
+    rg3 ghalt
+}
+
+sndo2 valid_move(rakm pos, board) {
+    lw pos >= 0 or pos <= 8 {
+        lw board[pos] == " " {
+            rg3 sa7
+        }
+    }
+    rg3 ghalt
+}
+
+sndo2 tictactoe_game() {
+    dorg board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+    klma current_player = "X"
+    rakm move
+
+    etb3("Welcome to Flex Tic Tac Toe!")
+    print_board(board)
+
+    talama sa7 {
+        etb3("Player {current_player}, enter position (0-8):")
+        move = da5l()
+
+        lw valid_move(move,board) == sa7 {
+            board[move] = current_player
+            print_board(board)
+
+            lw check_winner(current_player,board) == sa7 {
+                etb3("Player {current_player} wins!")
+                w2f
+            }
+
+            lw is_draw(board) == sa7 {
+                etb3("It's a draw!")
+                w2f
+            }
+
+            # Switch player
+            lw current_player == "X" {
+                current_player = "O"
+            }
+            gher {
+                current_player = "X"
+            }
+        }
+        gher {
+            etb3("Invalid move. Try again.")
+        }
+    }
+}
+
+tictactoe_game()

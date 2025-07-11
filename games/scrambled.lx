@@ -1,0 +1,160 @@
+ 
+sndo2 abs(rakm x) {  
+    lw x < 0 {  
+        rg3 (-1)*x  
+    }  
+    rg3 x  
+}  
+  
+sndo2 do_modulus(rakm b, rakm c) {  
+    lw c == 0 {  
+        etb3("error: division by zero is not allowed")  
+        rg3 0  
+    }  
+      
+    rakm aba = abs(b)  
+    rakm abb = abs(c)  
+      
+    lw aba < abb {  
+        rg3 b  
+    }  
+      
+    tlma aba >= abb {  
+        aba = aba - abb  
+    }  
+      
+    lw b < 0 {  
+        rg3 (-1) * aba  
+    }  
+    gher {  
+        rg3 aba  
+    }  
+}  
+  
+
+sndo2 generate_words() {  
+    dorg words = ["FLEX", "PROGRAM", "COMPUTER", "LANGUAGE", "CODING", "SYNTAX", "FUNCTION", "VARIABLE", "LOOP", "CONDITION", "ARRAY", "STRING", "INTEGER", "BOOLEAN", "PRINT"]  
+    rg3 words  
+}  
+  
+sndo2 select_random_word(dorg words) {  
+    rakm n = length(words)  
+      
+    etb3("Enter any number for randomization: ")  
+    rakm seed = da5l()  
+      
+    x = (seed * 17 + 42) * seed  
+    y = do_modulus(x, n)  
+      
+    rg3 words[y]  
+}  
+  
+ 
+sndo2 shuffle_word(klma word) {  
+    rakm word_len = length(word)  
+    dorg letters = []  
+      
+    
+    for(i=0; i<word_len; i++) {  
+        letters.push(word[i])  
+    }  
+      
+    
+    etb3("Enter another number for shuffling: ")  
+    rakm shuffle_seed = da5l()  
+      
+    for(i=0; i<word_len; i++) {  
+         
+        rand_val = (shuffle_seed * (i + 1) * 23 + 17) * (i + 7) 
+        x= abs(rand_val) 
+        j = do_modulus(x, word_len)  
+          
+        
+        temp = letters[i]  
+        letters[i] = letters[j]  
+        letters[j] = temp  
+    }  
+      
+    
+    klma scrambled = ""  
+    for(i=0; i<word_len; i++) {  
+        scrambled = scrambled + letters[i]  
+    }  
+      
+    rg3 scrambled  
+}  
+  
+sndo2 give_hint(klma original_word, rakm wrong_attempts) {    
+    lw wrong_attempts == 1 {    
+        etb3("Hint 1: This word has {length(original_word)} letters")    
+    }    
+    aw wrong_attempts == 2 {    
+        etb3("Hint 2: The first letter is '{original_word[0]}'")    
+    }    
+    aw wrong_attempts == 3 {    
+        etb3("Hint 3: The last letter is '{original_word[length(original_word)-1]}'")    
+    }    
+    aw wrong_attempts == 4 {    
+        etb3("Hint 4: It's related to programming/computers")    
+    }    
+    gher {    
+        etb3("Final Hint: The word contains letters from the word")    
+    }    
+}
+
+# remove original_word to be oignal_word
+  
+
+sndo2 play_word_scramble() {  
+    dorg word_list = generate_words()  
+    klma secret_word = select_random_word(word_list)  
+    klma scrambled_word = shuffle_word(secret_word)  
+      
+    rakm wrong_attempts = 0  
+    rakm max_attempts = 5  
+    klma player_guess = ""  
+    so2al game_won = ghalt  
+      
+    etb3("=== WORD SCRAMBLE GAME ===")  
+    etb3("Unscramble this word: {scrambled_word}")  
+    etb3("(Type your guess for the original word)")  
+      
+    talama wrong_attempts < max_attempts and not game_won {  
+        etb3("Enter your guess: ")  
+        player_guess = da5l()  
+          
+         
+        guess_upper = ""  
+        for(i=0; i<length(player_guess); i++) {  
+            
+            guess_upper = guess_upper + player_guess[i]  
+        }  
+          
+        lw guess_upper == secret_word {  
+            game_won = sa7  
+            etb3("Congratulations! You got it right!")  
+            etb3("The word was: {secret_word}")  
+            etb3("Scrambled version was: {scrambled_word}")  
+        }  
+        gher {  
+            wrong_attempts++  
+            etb3("Wrong guess! Try again.")  
+              
+            lw wrong_attempts < max_attempts {  
+                give_hint(secret_word, wrong_attempts)  
+                etb3("Attempts remaining: {max_attempts - wrong_attempts}")  
+            }  
+        }  
+    }  
+      
+    lw not game_won {  
+        etb3("Game Over!")  
+        etb3("The correct word was: {secret_word}")  
+        etb3("Better luck next time!")  
+    }  
+}  
+  
+
+etb3("Starting Word Scramble Game...")  
+etb3("Get ready to unscramble some words! using CAPSLK key")  
+play_word_scramble()

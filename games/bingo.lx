@@ -1,0 +1,112 @@
+sndo2 abs(rakm x) {  
+    lw x < 0 {  
+        rg3 (-1)*x  
+    }  
+    rg3 x  
+}  
+  
+// Manual modulus (do_modulus)    
+sndo2 do_modulus(rakm b, rakm c) {    
+    lw c == 0 {    
+        etb3("error: division by zero is not allowed")    
+        rg3 0    
+    }    
+    
+    rakm aba = abs(b)    
+    rakm abb = abs(c)    
+    
+    lw aba < abb {    
+        rg3 b    
+    }    
+    
+    tlma aba >= abb {    
+        aba = aba - abb    
+    }    
+    
+    lw b < 0 {    
+        rg3 (-1) * aba    
+    }    
+    gher {    
+        rg3 aba    
+    }    
+}    
+    
+// Create full number list from 1 to 75 with pre-filled values    
+sndo2 generate_numbers() {      
+    dorg numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75]    
+    rg3 numbers      
+}  
+  
+sndo2 shuffle(dorg arr) {          
+    rakm n = length(arr)          
+    rakm limit = n - 1  
+      
+    // Get user input as seed  
+    etb3("Enter any number for randomization: ")  
+    rakm seed = da5l()  // User provides the seed  
+              
+    // Multiple passes for better mixing          
+    for(p=0; p<2; p++) {      
+        for(i=0; i<limit; i++) { 
+            for (z=0; z<9; z=z+2){
+                // Modified calculation with user seed          
+                x = (i * z + p * 23 + 110 + seed) * (i + p + 1)      
+                y = do_modulus(x, n)          
+                      
+                temp = arr[i]          
+                arr[i+1] = arr[y]   
+                arr[z] = arr[i]
+                arr[i] = arr[y]           
+                arr[y] = temp 
+                z=z*2   
+            }      
+        }          
+    }          
+              
+    rg3 arr          
+}
+    
+// Create 5x5 bingo card with FREE center      
+sndo2 create_card() {      
+    dorg raw = []
+    raw = generate_numbers()    
+    dorg nums = []
+    nums = shuffle(raw)    
+      
+    dorg card = []      
+    rakm index = 0      
+      
+    for(row=0; row<5; row++) {    
+        dorg line = []      
+        for(col=0; col<5; col++) {    
+            lw row == 2 and col == 2 {      
+                line.push("FREE")      
+            } gher {      
+                line.push(nums[index])      
+                index = index + 1      
+            }    
+        }      
+        card.push(line)    
+    }      
+      
+    rg3 card      
+}      
+      
+// Display the 5x5 card in grid      
+sndo2 display_card(dorg card) {      
+    for(i=0; i<5; i++) {    
+        for(j=0; j<5; j++) {    
+            etb3("{card[i][j]} ")      
+        }      
+        etb3("")  // New line      
+    }      
+}  
+  
+// --------------------------    
+// Main Program    
+// --------------------------    
+etb3("Generating your Bingo card...")    
+    
+dorg myCard = []
+myCard = create_card()  // Fixed: proper assignment syntax  
+display_card(myCard)
