@@ -65,7 +65,7 @@ etb3("Mean of [42]: {mean(single_element)}")              // Should be 42
 etb3("Mean of [-2,-1,0,1,2]: {mean(negative_data)}")     // Should be 0  
   
 // Test variance function  
-etb3("\nTesting variance function:")  
+etb3("Testing variance function:")  
 etb3("Variance of [1,2,3,4,5]: {variance(test_data1)}")           // Should be 2  
 etb3("Variance of [10,20,30,40,50]: {variance(test_data2)}")      // Should be 200  
 etb3("Variance of [2,4,4,4,5,5,7,9]: {variance(test_data3)}")    // Should be 4  
@@ -73,7 +73,7 @@ etb3("Variance of [42]: {variance(single_element)}")              // Should be 0
 etb3("Variance of [-2,-1,0,1,2]: {variance(negative_data)}")     // Should be 2  
   
 // Test standard deviation function (requires sqrt implementation)  
-etb3("\nTesting standard_deviation function:")  
+etb3("Testing standard_deviation function:")  
 etb3("Std Dev of [1,2,3,4,5]: {standard_deviation(test_data1)}")           // Should be 1.414  
 etb3("Std Dev of [10,20,30,40,50]: {standard_deviation(test_data2)}")      // Should be 14.142  
 etb3("Std Dev of [42]: {standard_deviation(single_element)}")              // Should be 0  
