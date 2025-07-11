@@ -1,4 +1,4 @@
-// Degrees to Radians
+
 
 sndo2 deg_to_rad(rakm deg) {
     kasr r = 3.14159265
@@ -6,14 +6,14 @@ sndo2 deg_to_rad(rakm deg) {
     rg3 deg * r / d
 }
 
-// Radians to Degrees
+
 sndo2 rad_to_deg(rakm rad) {
     kasr r = 3.14159265
     rakm d = 180
     rg3 rad * d / r
 }
 
-// Example usage  
+
 rakm degrees = 90  
 kasr radians = 1
   
